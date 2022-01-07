@@ -9,11 +9,17 @@
 	"action":{
 		"default_popup": "popup.html",
 		"default_icon":{
-			"16": "/images/speedier16.png",
-			"32": "/images/speedier32.png",
-			"48": "/images/speedier48.png",
-			"128": "/images/speedier128.png"
+			"16": "/images/speedier.png",
+			"32": "/images/speedier.png",
+			"48": "/images/speedier.png",
+			"128": "/images/speedier.png"
 		}
+	},
+	"icons":{
+		"16": "/images/speedier.png",
+		"32": "/images/speedier.png",
+		"48": "/images/speedier.png",
+		"128": "/images/speedier.png"
 	},
     "content_scripts":[
 		{
