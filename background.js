@@ -1,7 +1,7 @@
 const docbody = document.getElementsByTagName("body")[0]
 const config = {childList: true, subtree: true };
 
-let LOUD_SPEED = 1, QUIET_SPEED = 4, THRESHOLD = 0.01
+let LOUD_SPEED = 1, QUIET_SPEED = 4, THRESHOLD = 0.01, DISABLED = false
 
 let ctx, 
 processor,
@@ -34,6 +34,8 @@ const optimizeVideo = function(mutationsList, observer)
         // loop through PCM data and calculate average
         // volume for a given 2048 sample buffer
         processor.onaudioprocess = function(evt){
+        	if (DISABLED) {return;}
+
             var input = evt.inputBuffer.getChannelData(0)
             , len = input.length   
             , total = i = 0
@@ -64,7 +66,24 @@ const optimizeVideo = function(mutationsList, observer)
 }
 
 const observer = new MutationObserver(optimizeVideo);
+observer.observe(docbody,config);
 
-console.log('loaded')
-optimizeVideo([], observer)
-observer.observe(docbody, config);
+chrome.storage.onChanged.addListener(function (changes, namespace) {
+	console.log("hello");
+	for (let [key, { oldValue, newValue }] of Object.entries(changes)){
+		console.log(key);
+		if(key == "isiton"){
+			if(newValue == true){
+				console.log("allowed to run");
+				DISABLED = false;
+			}
+			else{
+				console.log("blocked from running");
+				DISABLED = true;
+				video.playbackRate = 1;
+			}
+		}
+	}
+});
+
+
