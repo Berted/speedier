@@ -1,14 +1,19 @@
-chrome.storage.local.set({'isiton':false},function(){});
-var on = false;
+chrome.storage.local.get(['isiton'], (result) => {
+    if (result.isiton === undefined) {
+        chrome.storage.local.set({'isiton':false},function(){});
+    }
+    else {
+        document.getElementById("onoff").checked = result.isiton;
+    }
+});
+
 
 document.getElementById("onoff").addEventListener('change', () => {
     console.log("hello");
     if(document.getElementById("onoff").checked){
-        on = true;
         chrome.storage.local.set({'isiton':true},function(){});
     }
     else{
-        on = false;
         chrome.storage.local.set({'isiton':false},function(){});
     }
 });
