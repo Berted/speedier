@@ -2,15 +2,19 @@ import youtube_dl
 import os
 import cv2
 import numpy as np
+import io
 import random
+import requests
+import PIL.Image as Image
+
 
 class Speedier():
-    def __init__(self,horizon=60,num_frames=10,l = 1.0,r = 3.0,data_dir = "./videos",type="pixel"):
+    def __init__(self,horizon=60,num_frames=2,l = 1.0,r = 3.0,data_dir = "./videos",type="pixel"):
         self.horizon = horizon
         self.num_frames = num_frames
         self.range = (l,r)
         self.data_dir = data_dir
-        self.last_down = "https://www.youtube.com/watch?v=fPp3Qh-GRqs"
+        self.last_down = -1
         self.type = type
 
     def DownloadVideo(self,url):
@@ -42,16 +46,26 @@ class Speedier():
         return (np.sum((f1-f2)*(f1-f2)))/(np.prod(f1.shape)*255)
 
     def GetSpeed(self,url,curtime=0):
-        self.DownloadVideo(url)
-        vidcap = cv2.VideoCapture(os.path.join(self.data_dir,"actual_video.mp4"))
-        fps = vidcap.get(cv2.CAP_PROP_FPS)
+        #self.DownloadVideo(url)
+        #vidcap = cv2.VideoCapture(os.path.join(self.data_dir,"actual_video.mp4"))
+        #fps = vidcap.get(cv2.CAP_PROP_FPS)
 
-        frame_positions = self.SamplePositions(int(curtime*fps),int((curtime+self.horizon)*fps),self.num_frames)
+        frame_positions = self.SamplePositions(curtime,curtime+self.horizon,self.num_frames)
 
         frames = []
         for frame_pos in frame_positions:
-            vidcap.set(1, frame_pos)
-            ret, frame = vidcap.read()
+
+            headers = {'accept': '*/*',}
+
+            params = (
+            ('youtube_id', url[len(url)-11:]),
+            ('seconds', str(frame_pos)),
+            )
+
+            response = requests.get('https://capture-kopg2w5bka-ue.a.run.app/frames', headers=headers, params=params)
+            img = Image.open(io.BytesIO(response.content))
+            img.thumbnail((384,384))
+            frame = np.array(img)
             frames.append(frame)
         if self.type == "pixel":
             prev = frames[0]
@@ -66,4 +80,4 @@ class Speedier():
 
 
 one = Speedier()
-print(one.GetSpeed(url = "https://www.youtube.com/watch?v=fPp3Qh-GRqs"))
+print(one.GetSpeed(url = "https://www.youtube.com/watch?v=b3NxrZOu_CE"))
