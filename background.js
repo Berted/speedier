@@ -1,7 +1,9 @@
 const docbody = document.getElementsByTagName("body")[0]
 const config = {childList: true, subtree: true };
 
-let LOUD_SPEED = 1, QUIET_SPEED = 4, THRESHOLD = 0.01, DISABLED = false
+const DEFAULT_QUIET = 4, DEFAULT_LOUD = 1, DEFAULT_THRESHOLD = 0.01
+
+let LOUD_SPEED = DEFAULT_LOUD, QUIET_SPEED = DEFAULT_QUIET, THRESHOLD = DEFAULT_THRESHOLD, DISABLED = false
 
 let ctx, 
 processor,
@@ -65,7 +67,7 @@ const optimizeVideo = function(mutationsList, observer)
     }
 }
 
-chrome.storage.local.get(['isiton'], (result) => {
+chrome.storage.local.get(['isiton', 'quiet_speed', 'loud_speed', 'threshold'], (result) => {
     if (result.isiton === true) {
         console.log("allowed to run");
         DISABLED = false;
@@ -75,6 +77,10 @@ chrome.storage.local.get(['isiton'], (result) => {
         DISABLED = true;
         video.playbackRate = 1;
     }
+
+    if (result.quiet_speed) QUIET_SPEED = result.quiet_speed;
+    if (result.loud_speed) LOUD_SPEED = result.loud_speed;
+    if (result.threshold) THRESHOLD = result.threshold;
 });
 
 const observer = new MutationObserver(optimizeVideo);
@@ -100,19 +106,19 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
 			if(newValue){
 				QUIET_SPEED = newValue;
 			}
-			else QUIET_SPEED = 4;
+			else QUIET_SPEED = DEFAULT_QUIET;
 		}
 		else if(key == "loud_speed"){
 			if(newValue){
 				LOUD_SPEED = newValue;
 			}
-			else LOUD_SPEED = 1.5;
+			else LOUD_SPEED = DEFAULT_LOUD;
 		}
 		else if(key == "threshold"){
 			if(newValue){
 				THRESHOLD = newValue;
 			}
-			else THRESHOLD = 0.01;
+			else THRESHOLD = DEFAULT_THRESHOLD;
 		}
 	}
 });
