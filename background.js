@@ -65,6 +65,18 @@ const optimizeVideo = function(mutationsList, observer)
     }
 }
 
+chrome.storage.local.get(['isiton'], (result) => {
+    if (result.isiton === true) {
+        console.log("allowed to run");
+        DISABLED = false;
+    }
+    else {
+        console.log("blocked from running");
+        DISABLED = true;
+        video.playbackRate = 1;
+    }
+});
+
 const observer = new MutationObserver(optimizeVideo);
 observer.observe(docbody,config);
 
