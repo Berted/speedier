@@ -1,7 +1,14 @@
-document.getElementById("on").addEventListener('click', () => {
-    console.log("on"); 
-});
+chrome.storage.local.set({'isiton':false},function(){});
+var on = false;
 
-document.getElementById("off").addEventListener('click', () => {
-    console.log("off"); 
+document.getElementById("onoff").addEventListener('change', () => {
+    console.log("hello");
+    if(document.getElementById("onoff").checked){
+        on = true;
+        chrome.storage.local.set({'isiton':true},function(){});
+    }
+    else{
+        on = false;
+        chrome.storage.local.set({'isiton':false},function(){});
+    }
 });

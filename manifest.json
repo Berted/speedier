@@ -7,20 +7,20 @@
 	"permissions": ["storage"],
     "host_permissions": ["<all_urls>"],
 	"action":{
-		"default_popup": "popup.html",
-		"default_icon":{
-			"16": "/images/speedier.png",
-			"32": "/images/speedier.png",
-			"48": "/images/speedier.png",
-			"128": "/images/speedier.png"
-		}
+		"default_popup": "popup.html"
+		// "default_icon":{
+		// 	"16": "/images/speedier.png",
+		// 	"32": "/images/speedier.png",
+		// 	"48": "/images/speedier.png",
+		// 	"128": "/images/speedier.png"
+		// }
 	},
-	"icons":{
-		"16": "/images/speedier.png",
-		"32": "/images/speedier.png",
-		"48": "/images/speedier.png",
-		"128": "/images/speedier.png"
-	},
+	// "icons":{
+	// 	"16": "/images/speedier.png",
+	// 	"32": "/images/speedier.png",
+	// 	"48": "/images/speedier.png",
+	// 	"128": "/images/speedier.png"
+	// },
     "content_scripts":[
 		{
 			"run_at": "document_end",
