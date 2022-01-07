@@ -80,6 +80,7 @@ chrome.storage.local.get(['isiton'], (result) => {
 const observer = new MutationObserver(optimizeVideo);
 observer.observe(docbody,config);
 
+
 chrome.storage.onChanged.addListener(function (changes, namespace) {
 	console.log("hello");
 	for (let [key, { oldValue, newValue }] of Object.entries(changes)){
@@ -95,7 +96,23 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
 				video.playbackRate = 1;
 			}
 		}
+		else if(key == "quiet_speed"){
+			if(newValue){
+				QUIET_SPEED = newValue;
+			}
+			else QUIET_SPEED = 4;
+		}
+		else if(key == "loud_speed"){
+			if(newValue){
+				LOUD_SPEED = newValue;
+			}
+			else LOUD_SPEED = 1.5;
+		}
+		else if(key == "threshold"){
+			if(newValue){
+				THRESHOLD = newValue;
+			}
+			else THRESHOLD = 0.01;
+		}
 	}
 });
-
-
