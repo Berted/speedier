@@ -1,19 +1,13 @@
 {
-    "name": "Speedier",
-    "description": "Watching videos, but even faster!",
-    "version": "1.0",
-    "manifest_version": 3,
-    "background": {
-      "service_worker": "background.js"
-    },
-    "permissions": ["storage"],
-    "action": {
-      "default_popup": "popup.html",
-      "default_icon": {
-        "16": "/images/speedier16.png",
-        "32": "/images/speedier32.png",
-        "48": "/images/speedier48.png",
-        "128": "/images/speedier128.png"
-      }
-    }
-  }
+	"name":"Speedier",
+	"version":"1.0",
+	"manifest_version":2,
+	"description":"Videos, but fast!",
+	"content_scripts":[
+		{
+			"run_at": "document_end",
+			"matches": ["<all_urls>"],
+			"js": ["background.js"]
+		}
+	]
+}
