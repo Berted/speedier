@@ -16,7 +16,7 @@ Speedier is an extension designed to modify the playback rate of a video accordi
 4. Enable Developer mode (This toggle can be found on the top-right corner of the screen)
 5. A couple of buttons should show up now, press the "Load unpacked" button
 6. Navigate to the location of this GitHub repository on your computer, and select the folder.
-7. The extension should now be installed :D
+7. The extension should now be installed :D .
 
 ---
 
